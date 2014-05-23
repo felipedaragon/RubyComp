@@ -4,7 +4,7 @@ A fork of RubyComp, a Delphi component for embedding the Ruby interpreter, with 
 
 The C wrapper functions are based on [Appollo](http://www.moriq.com/apollo/) and written by Kazuhiro Yoshida.
 
-RubyComp was created by Pirmin Kalberer (Sourcepole AG) and was originally hosted at http://pro.sourcepole.ch/projects/rubycomp/
+RubyComp was created by Pirmin Kalberer ([@pka](https://github.com/pka)) and was originally hosted at http://pro.sourcepole.ch/projects/rubycomp/
 
 ## License
 
