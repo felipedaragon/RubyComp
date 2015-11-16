@@ -1,3 +1,18 @@
+unit RbType;
+
+{$I heverdef.inc}
+
+interface
+
+uses SysUtils, st;
+
+resourcestring
+  sWrong_num_of_args = 'wrong # of arguments';
+  sWrong_arg_type = 'wrong argument type';
+  sToo_few_args = 'too few arguments';
+  sToo_many_args = 'too many arguments';
+  sOut_of_range = 'out of range';
+
 type
   Tvalue = Cardinal;
   Tid = Cardinal;
@@ -287,3 +302,6 @@ var
   ruby_class: Tvalue;
   ruby_dyna_vars: PRVarmap;
 
+implementation
+
+end.

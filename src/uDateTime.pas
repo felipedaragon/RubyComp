@@ -22,7 +22,7 @@ uses
 {$IFDEF MSWINDOWS}
   Windows,
 {$ENDIF}
-RubyWrapper;
+  RbType;
 
 var
   LOCAL_TIME_DIFF : double = 0.0;//DAY
@@ -43,9 +43,7 @@ procedure Init_DateTime;
 implementation
 
 uses
-  DateUtils,
-  SysUtils,
-  uConv, uStrUtils;
+  DateUtils, SysUtils, uConv, uStrUtils, rubywrapper, macroimp, wrapimp;
 
 procedure ap_dispose(p: Pointer); cdecl;
 begin

@@ -28,7 +28,7 @@ uses
 {$IFDEF DELPHI6_UP}
   Variants,
 {$ENDIF}
-  RubyWrapper;
+  RbType;
 
 function ap_bool(B: Boolean): Tvalue;
 function dl_Boolean(v: Tvalue): Boolean;
@@ -52,7 +52,7 @@ function dl_Path(v: Tvalue): string;
 
 implementation
 
-uses uDateTime;
+uses uDateTime, macroimp, rubywrapper, wrapimp;
 
 function ap_bool(B: Boolean): Tvalue;
 begin

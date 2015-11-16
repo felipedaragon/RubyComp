@@ -1,3 +1,9 @@
+unit gvarint;
+
+interface
+
+uses rbType;
+
 procedure rb_cArray; cdecl; external RubyDLL;
 procedure rb_cBignum; cdecl; external RubyDLL;
 procedure rb_mComparable; cdecl; external RubyDLL;
@@ -89,3 +95,7 @@ procedure rb_thread_tick; cdecl; external RubyDLL;
 procedure ruby_ignorecase; cdecl; external RubyDLL;
 procedure rb_trap_immediate; cdecl; external RubyDLL;
 procedure rb_trap_pending; cdecl; external RubyDLL;
+
+implementation
+
+end.

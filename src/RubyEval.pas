@@ -12,12 +12,12 @@
 
 unit RubyEval;
 
+{$I heverdef.inc}
+
 interface
 
-{$DEFINE RUBY18}
-
 uses
-  SysUtils, Classes, RubyWrapper;
+  SysUtils, Classes, RbType;
 
 //Global procedures/functions for all instances of TRubyEval
 
@@ -83,11 +83,11 @@ var
   RubyPrintProc:TRubyPrintProc;
 
 procedure Register;
-function DelphiIO_puts(This, v: Tvalue): Tvalue; cdecl; // syhunt
+function DelphiIO_puts(This, v: Tvalue): Tvalue; cdecl; // FD
 
 implementation
 
-uses Variants, uConv;
+uses Variants, uConv, macroimp, rubywrapper, wrapimp;
 
 var
   OutBuf: string;
@@ -139,7 +139,7 @@ begin
   len := ap_str_len(str);
   if len <> 0 then
   begin
-    OutBuf := OutBuf + dl_String(str);
+    OutBuf := OutBuf + string(ansistring(dl_String(str)));
 
     if Assigned(OutputStrings) then
       OutputStrings.Text := OutBuf;
@@ -222,7 +222,7 @@ var
 begin
   rbstr := rval;
   if RTYPE(rbstr) <> T_STRING then rbstr := rb_obj_as_string(rval);
-  Result := dl_String(rbstr);
+  Result := string(ansistring(dl_String(rbstr)));
 end;
 
 function DelphiIO_puts(This, v: Tvalue): Tvalue; cdecl; // syhunt
@@ -234,7 +234,7 @@ begin
   if len <> 0 then
   begin
     if Assigned(RubyPrintProc) then
-     RubyPrintProc(dl_String(str));
+     RubyPrintProc(string(ansistring(dl_String(str))));
   end;
   result := INT2FIX(len);
 end;
