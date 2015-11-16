@@ -39,7 +39,7 @@ function rb_uint2big(n: Cardinal): Tvalue; cdecl;
 function rb_int2big(n: Integer): Tvalue; cdecl;
 function rb_uint2inum(n: Cardinal): Tvalue; cdecl;
 function rb_int2inum(n: Integer): Tvalue; cdecl;
-function rb_str2inum(const ptr: PChar; len: Integer): Tvalue; cdecl;
+function rb_str2inum(const ptr: PAnsiChar; len: Integer): Tvalue; cdecl;
 function rb_big2str(x: Tvalue; len: Integer): Tvalue; cdecl;
 function rb_big2long(x: Tvalue): Integer; cdecl;
 function rb_big2ulong(x: Tvalue): Cardinal; cdecl;
@@ -70,22 +70,22 @@ function rb_class_protected_instance_methods(argc: Integer; argv: Pvalue; module
 function rb_class_private_instance_methods(argc: Integer; argv: Pvalue; module: Tvalue): Tvalue; cdecl;
 function rb_obj_singleton_methods(obj: Tvalue): Tvalue; cdecl;
 procedure rb_define_method_id(klass: Tvalue; name: Tid; func: TFunc0; argc: Integer); cdecl;
-procedure rb_define_protected_method(klass: Tvalue; const name: PChar; func: TFunc0; argc: Integer); cdecl;
-procedure rb_define_private_method(klass: Tvalue; const name: PChar; func: TFunc0; argc: Integer); cdecl;
-procedure rb_define_singleton_method(obj: Tvalue; const name: PChar; func: TFunc0; argc: Integer); cdecl;
+procedure rb_define_protected_method(klass: Tvalue; const name: PAnsiChar; func: TFunc0; argc: Integer); cdecl;
+procedure rb_define_private_method(klass: Tvalue; const name: PAnsiChar; func: TFunc0; argc: Integer); cdecl;
+procedure rb_define_singleton_method(obj: Tvalue; const name: PAnsiChar; func: TFunc0; argc: Integer); cdecl;
 function rb_singleton_class(obj: Tvalue): Tvalue; cdecl;
 
 { error.c }
-function rb_exc_new(etype: Tvalue; const ptr: PChar; len: Integer): Tvalue; cdecl;
-function rb_exc_new2(etype: Tvalue; const s: PChar): Tvalue; cdecl;
+function rb_exc_new(etype: Tvalue; const ptr: PAnsiChar; len: Integer): Tvalue; cdecl;
+function rb_exc_new2(etype: Tvalue; const s: PAnsiChar): Tvalue; cdecl;
 function rb_exc_new3(etype, str: Tvalue): Tvalue; cdecl;
 
 { eval.c }
 procedure rb_exc_raise(mesg: Tvalue); cdecl;
 procedure rb_exc_fatal(mesg: Tvalue); cdecl;
-procedure rb_remove_method(klass: Tvalue; const name: PChar); cdecl;
-procedure rb_disable_super(klass: Tvalue; const name: PChar); cdecl;
-procedure rb_enable_super(klass: Tvalue; const name: PChar); cdecl;
+procedure rb_remove_method(klass: Tvalue; const name: PAnsiChar); cdecl;
+procedure rb_disable_super(klass: Tvalue; const name: PAnsiChar); cdecl;
+procedure rb_enable_super(klass: Tvalue; const name: PAnsiChar); cdecl;
 procedure rb_clear_cache; cdecl;
 procedure rb_alias(klass: Tvalue; name, def: Tid); cdecl;
 procedure rb_attr(klass: Tvalue; id: Tid; read, write, ex: Integer); cdecl;
@@ -121,7 +121,7 @@ function rb_thread_create(fn: TFunc0; arg: Pointer): Tvalue; cdecl;
 function rb_thread_scope_shared_p: Integer; cdecl;
 procedure rb_thread_interrupt; cdecl;
 procedure rb_thread_trap_eval(cmd: Tvalue; sig: Integer); cdecl;
-procedure rb_thread_signal_raise(sig: PChar); cdecl;
+procedure rb_thread_signal_raise(sig: PAnsiChar); cdecl;
 function rb_thread_select: Integer; cdecl;
 procedure rb_thread_wait_for; cdecl;
 function rb_thread_current: Tvalue; cdecl;
@@ -130,10 +130,10 @@ function rb_thread_local_aref(thread: Tvalue; id: Tid): Tvalue; cdecl;
 function rb_thread_local_aset(thread: Tvalue; id: Tid; val: Tvalue): Tvalue; cdecl;
 
 { file.c }
-function eaccess(const path: PChar; mode: Integer): Integer; cdecl;
+function eaccess(const path: PAnsiChar; mode: Integer): Integer; cdecl;
 function rb_file_s_expand_path(argc: Integer; argv: Pvalue): Tvalue; cdecl;
-procedure rb_file_const(const fname: PChar; v: Tvalue); cdecl;
-function rb_find_file(fname :PChar): PChar; cdecl;
+procedure rb_file_const(const fname: PAnsiChar; v: Tvalue); cdecl;
+function rb_find_file(fname :PAnsiChar): PAnsiChar; cdecl;
 
 { gc.c }
 procedure rb_global_variable(val: Pvalue); cdecl;
@@ -152,14 +152,14 @@ function rb_hash_new: Tvalue; cdecl;
 function rb_hash_freeze(hash :Tvalue): Tvalue; cdecl;
 function rb_hash_aref(hash, key : Tvalue): Tvalue; cdecl;
 function rb_hash_aset(hash, key, val: Tvalue): Tvalue; cdecl;
-function rb_path_check(path: PChar): Integer; cdecl;
+function rb_path_check(path: PAnsiChar): Integer; cdecl;
 function rb_env_path_tainted: Integer; cdecl;
 
 { intern.h }
 procedure rb_load(fname: Tvalue; wrap: Integer); cdecl;
 procedure rb_load_protect(fname: Tvalue; wrap: Integer; var state: Integer); cdecl;
 procedure rb_jump_tag(tag: Integer); cdecl;
-procedure rb_provide(const feature: PChar); cdecl;
+procedure rb_provide(const feature: PAnsiChar); cdecl;
 function rb_f_require(obj, fname: Tvalue): Tvalue; cdecl;
 procedure rb_obj_call_init(obj: Tvalue; argc: Integer; argv: Pvalue); cdecl;
 function rb_class_new_instance(argc: Integer; argv: Pvalue; klass: Tvalue): Tvalue; cdecl;
@@ -179,7 +179,7 @@ function rb_io_binmode(io: Tvalue): Tvalue; cdecl;
 function rb_file_open(const fname, mode: Tvalue): Tvalue; cdecl;
 function rb_gets: Tvalue; cdecl;
 procedure rb_str_setter(val: Tvalue; id: Tid; ptr: Pvalue); cdecl;
-function rb_io_mode_flags(mode: PChar): Integer; cdecl;
+function rb_io_mode_flags(mode: PAnsiChar): Integer; cdecl;
 
 { numeric.c }
 procedure rb_num_zerodiv; cdecl;
@@ -206,7 +206,7 @@ function rb_lastline_get: Tvalue; cdecl;
 procedure rb_lastline_set(val: Tvalue); cdecl;
 
 { process.c }
-function rb_proc_exec(const str: PChar): Integer; cdecl;
+function rb_proc_exec(const str: PAnsiChar): Integer; cdecl;
 procedure rb_syswait(pid: Integer); cdecl;
 
 { range.c }
@@ -223,15 +223,15 @@ function rb_reg_last_match(match: Tvalue): Tvalue; cdecl;
 function rb_reg_match_pre(match: Tvalue): Tvalue; cdecl;
 function rb_reg_match_post(match: Tvalue): Tvalue; cdecl;
 function rb_reg_match_last(match: Tvalue): Tvalue; cdecl;
-function rb_reg_new(const s: PChar; len, options: Integer): Tvalue; cdecl;
+function rb_reg_new(const s: PAnsiChar; len, options: Integer): Tvalue; cdecl;
 function rb_reg_regcomp(str : Tvalue): Tvalue; cdecl;
 function rb_reg_match(re, str: Tvalue): Tvalue; cdecl;
 function rb_reg_match2(re: Tvalue): Tvalue; cdecl;
 function rb_kcode: Integer; cdecl;
 function rb_reg_options(re: Tvalue): Integer; cdecl;
 function rb_reg_regsub(str, src: Tvalue; regs: PRERegisters): Tvalue; cdecl;
-function rb_get_kcode: PChar; cdecl;
-procedure rb_set_kcode(const code: PChar); cdecl;
+function rb_get_kcode: PAnsiChar; cdecl;
+procedure rb_set_kcode(const code: PAnsiChar); cdecl;
 procedure rb_match_busy(match: Tvalue); cdecl;
 
 { ruby.c }
@@ -241,55 +241,55 @@ procedure rb_secure(level: Integer); cdecl;
 function rb_num2long(val: Tvalue): Integer; cdecl;
 function rb_num2ulong(val: Tvalue): Cardinal; cdecl;
 function rb_num2dbl(n: Tvalue): Double; cdecl;
-function rb_str2cstr(x: Tvalue; var len: Integer): PChar; cdecl;
+function rb_str2cstr(x: Tvalue; var len: Integer): PAnsiChar; cdecl;
 
 function rb_newobj: Tvalue; cdecl;
 
 function rb_data_object_alloc(klass: Tvalue; datap, dmark, dfree: Pointer): Tvalue; cdecl;
 
-function rb_define_class(const name: PChar; super: Tvalue): Tvalue; cdecl;
-function rb_define_module(const name: PChar): Tvalue; cdecl;
-function rb_define_class_under(module: Tvalue; const name: PChar; super: Tvalue): Tvalue; cdecl;
-function rb_define_module_under(module: Tvalue; const name: PChar): Tvalue; cdecl;
+function rb_define_class(const name: PAnsiChar; super: Tvalue): Tvalue; cdecl;
+function rb_define_module(const name: PAnsiChar): Tvalue; cdecl;
+function rb_define_class_under(module: Tvalue; const name: PAnsiChar; super: Tvalue): Tvalue; cdecl;
+function rb_define_module_under(module: Tvalue; const name: PAnsiChar): Tvalue; cdecl;
 
 procedure rb_include_module(klass, module: Tvalue); cdecl;
 procedure rb_extend_object(obj, module: Tvalue); cdecl;
 
-procedure rb_define_variable(const name: PChar; v: Pvalue); cdecl;
-procedure rb_define_virtual_variable(const name: PChar; getter, setter: Pointer); cdecl;
-procedure rb_define_hooked_variable(const name: PChar; v: Pvalue; getter, setter: Pointer); cdecl;
-procedure rb_define_readonly_variable(const name: PChar; v: Pvalue); cdecl;
-procedure rb_define_const(klass: Tvalue; const name: PChar; v: Tvalue); cdecl;
-procedure rb_define_global_const(const name: PChar; v: Tvalue); cdecl;
+procedure rb_define_variable(const name: PAnsiChar; v: Pvalue); cdecl;
+procedure rb_define_virtual_variable(const name: PAnsiChar; getter, setter: Pointer); cdecl;
+procedure rb_define_hooked_variable(const name: PAnsiChar; v: Pvalue; getter, setter: Pointer); cdecl;
+procedure rb_define_readonly_variable(const name: PAnsiChar; v: Pvalue); cdecl;
+procedure rb_define_const(klass: Tvalue; const name: PAnsiChar; v: Tvalue); cdecl;
+procedure rb_define_global_const(const name: PAnsiChar; v: Tvalue); cdecl;
 
-function rb_define_method(klass: Tvalue; name: PChar; func: Pointer; argc: integer): Tvalue; cdecl;
-function rb_define_module_function(module: Tvalue; name: PChar; func: Pointer; argc: integer): Tvalue; cdecl;
-function rb_define_global_function(name: PChar; func: Pointer; argc: integer): Tvalue; cdecl;
+function rb_define_method(klass: Tvalue; name: PAnsiChar; func: Pointer; argc: integer): Tvalue; cdecl;
+function rb_define_module_function(module: Tvalue; name: PAnsiChar; func: Pointer; argc: integer): Tvalue; cdecl;
+function rb_define_global_function(name: PAnsiChar; func: Pointer; argc: integer): Tvalue; cdecl;
 
-procedure rb_undef_method(klass: Tvalue; const name: PChar); cdecl;
-procedure rb_define_alias(klass: Tvalue; const name1, name2: PChar); cdecl;
-procedure rb_define_attr(klass: Tvalue; const name: PChar; r, w: Integer); cdecl;
+procedure rb_undef_method(klass: Tvalue; const name: PAnsiChar); cdecl;
+procedure rb_define_alias(klass: Tvalue; const name1, name2: PAnsiChar); cdecl;
+procedure rb_define_attr(klass: Tvalue; const name: PAnsiChar; r, w: Integer); cdecl;
 
-function rb_intern(name: PChar): Tid; cdecl;
-function rb_id2name(id: Tid): PChar; cdecl;
+function rb_intern(name: PAnsiChar): Tid; cdecl;
+function rb_id2name(id: Tid): PAnsiChar; cdecl;
 function rb_to_id(obj: Tvalue): Tid; cdecl;
 
-function rb_class2name(klass: Tvalue): PChar; cdecl;
+function rb_class2name(klass: Tvalue): PAnsiChar; cdecl;
 
 procedure rb_p(obj: Tvalue); cdecl;
 
-function rb_eval_string(const str: PChar): Tvalue; cdecl;
-function rb_eval_string_protect(const str: PChar; var state: Integer): Tvalue; cdecl;
-function rb_eval_string_wrap(const str: PChar; var state: Integer): Tvalue; cdecl;
+function rb_eval_string(const str: PAnsiChar): Tvalue; cdecl;
+function rb_eval_string_protect(const str: PAnsiChar; var state: Integer): Tvalue; cdecl;
+function rb_eval_string_wrap(const str: PAnsiChar; var state: Integer): Tvalue; cdecl;
 function rb_funcall2(recv: Tvalue; mid: Tid; argc: Integer; argv: Pointer): Tvalue; cdecl;
 function rb_funcall3(recv: Tvalue; mid: Tid; argc: Integer; argv: Pointer): Tvalue; cdecl;
 
-function rb_gv_set(const name: PChar; val: Tvalue): Tvalue; cdecl;
-function rb_gv_get(const name: PChar): Tvalue; cdecl;
-function rb_iv_get(obj: Tvalue; const name: PChar): Tvalue; cdecl;
-function rb_iv_set(obj: Tvalue; const name: PChar; val: Tvalue): Tvalue; cdecl;
-function rb_cv_get(obj: Tvalue; const name: PChar): Tvalue; cdecl;
-function rb_cv_set(obj: Tvalue; const name: PChar; val: Tvalue): Tvalue; cdecl;
+function rb_gv_set(const name: PAnsiChar; val: Tvalue): Tvalue; cdecl;
+function rb_gv_get(const name: PAnsiChar): Tvalue; cdecl;
+function rb_iv_get(obj: Tvalue; const name: PAnsiChar): Tvalue; cdecl;
+function rb_iv_set(obj: Tvalue; const name: PAnsiChar; val: Tvalue): Tvalue; cdecl;
+function rb_cv_get(obj: Tvalue; const name: PAnsiChar): Tvalue; cdecl;
+function rb_cv_set(obj: Tvalue; const name: PAnsiChar; val: Tvalue): Tvalue; cdecl;
 function rb_const_get(klass: Tvalue; id: Tid): Tvalue; cdecl;
 function rb_const_get_at(klass: Tvalue; id: Tid): Tvalue; cdecl;
 procedure rb_const_set(klass: Tvalue; id: Tid; val: Tvalue); cdecl;
@@ -299,7 +299,7 @@ function rb_equal(x, y: Tvalue): Tvalue; cdecl;
 function rb_safe_level: Integer; cdecl;
 procedure rb_set_safe_level(level: Integer); cdecl;
 
-procedure rb_sys_fail(const mesg: PChar); cdecl;
+procedure rb_sys_fail(const mesg: PAnsiChar); cdecl;
 procedure rb_iter_break; cdecl;
 procedure rb_exit(status: Integer); cdecl;
 procedure rb_notimplement; cdecl;
@@ -310,10 +310,10 @@ function rb_block_given_p: Integer; cdecl;
 function rb_iterate(it_proc: Pointer; data1: Tvalue; bl_proc: Pointer; data2: Tvalue): Tvalue; cdecl;
 function rb_rescue(b_proc: Pointer; data1: Tvalue; r_proc: Pointer; data2: Tvalue): Tvalue; cdecl;
 function rb_ensure(b_proc: Pointer; data1: Tvalue; e_proc: Pointer; data2: Tvalue): Tvalue; cdecl;
-function rb_catch(const tag: PChar; proc: Pointer; data: Tvalue): Tvalue; cdecl;
-procedure rb_throw(const tag: PChar; val: Tvalue); cdecl;
+function rb_catch(const tag: PAnsiChar; proc: Pointer; data: Tvalue): Tvalue; cdecl;
+procedure rb_throw(const tag: PAnsiChar; val: Tvalue); cdecl;
 
-function rb_require(const fname: PChar): Tvalue; cdecl;
+function rb_require(const fname: PAnsiChar): Tvalue; cdecl;
 
 procedure ruby_init; cdecl;
 procedure ruby_options(argc: Integer; argv: Pointer); cdecl;
@@ -325,12 +325,12 @@ function ruby_exec: Integer; cdecl;
 {$ENDIF}
 procedure ruby_stop(ex: Integer); cdecl;
 
-procedure ruby_incpush(const path: PChar); cdecl;
+procedure ruby_incpush(const path: PAnsiChar); cdecl;
 procedure ruby_init_loadpath; cdecl;
 procedure require_libraries; cdecl;
 
-procedure rb_load_file(fname: PChar); cdecl;
-procedure ruby_script(fname: PChar); cdecl;
+procedure rb_load_file(fname: PAnsiChar); cdecl;
+procedure ruby_script(fname: PAnsiChar); cdecl;
 procedure ruby_prog_init; cdecl;
 procedure ruby_set_argv(argc: Integer; argv: Pointer); cdecl;
 procedure ruby_process_options(argc: Integer; argv: Pointer); cdecl;
@@ -344,12 +344,12 @@ procedure rb_trap_exec; cdecl;
 procedure rb_trap_restore_mask; cdecl;
 
 { string.c }
-function rb_str_new(const ptr: PChar; len: Longint): Tvalue; cdecl;
-function rb_str_new2(const ptr: PChar): Tvalue; cdecl;
+function rb_str_new(const ptr: PAnsiChar; len: Longint): Tvalue; cdecl;
+function rb_str_new2(const ptr: PAnsiChar): Tvalue; cdecl;
 function rb_str_new3(str: Tvalue): Tvalue; cdecl;
 function rb_str_new4(orig: Tvalue): Tvalue; cdecl;
-function rb_tainted_str_new(const ptr: PChar; len: Longint): Tvalue; cdecl;
-function rb_tainted_str_new2(const ptr: PChar): Tvalue; cdecl;
+function rb_tainted_str_new(const ptr: PAnsiChar; len: Longint): Tvalue; cdecl;
+function rb_tainted_str_new2(const ptr: PAnsiChar): Tvalue; cdecl;
 function rb_obj_as_string(obj: Tvalue): Tvalue; cdecl;
 function rb_str_to_str(str: Tvalue): Tvalue; cdecl;
 function rb_str_dup(str: Tvalue): Tvalue; cdecl;
@@ -359,32 +359,32 @@ function rb_str_substr(str: Tvalue; beg, len: Longint): Tvalue; cdecl;
 procedure rb_str_modify(str: Tvalue); cdecl;
 function rb_str_freeze(str: Tvalue): Tvalue; cdecl;
 function rb_str_resize(str: Tvalue; len: Longint): Tvalue; cdecl;
-function rb_str_cat(str: Tvalue; const ptr: Pchar; len: Longint): Tvalue; cdecl;
+function rb_str_cat(str: Tvalue; const ptr: PAnsiChar; len: Longint): Tvalue; cdecl;
 function rb_str_concat(str1, str2: Tvalue): Tvalue; cdecl;
 function rb_str_hash(str: Tvalue): Integer; cdecl;
 function rb_str_cmp(str1, str2: Tvalue): Integer; cdecl;
 function rb_str_upto(beg, fin: Tvalue; excl: Integer): Tvalue; cdecl;
 function rb_str_inspect(str: Tvalue): Tvalue; cdecl;
-function rb_str_split(str: Tvalue; const sep: PChar): Tvalue; cdecl;
+function rb_str_split(str: Tvalue; const sep: PAnsiChar): Tvalue; cdecl;
 
 { struct.c }
 function rb_struct_alloc(klass, values: Tvalue): Tvalue; cdecl;
 
 { util.c }
 function rb_test_false_or_nil(v: Tvalue): Integer; cdecl;
-function ruby_scan_oct(const start: PChar; len: Integer; retlen: Pointer): Integer; cdecl;
-function ruby_scan_hex(const start: PChar; len: Integer; retlen: Pointer): Integer; cdecl;
-function ruby_mktemp: PChar; cdecl;
+function ruby_scan_oct(const start: PAnsiChar; len: Integer; retlen: Pointer): Integer; cdecl;
+function ruby_scan_hex(const start: PAnsiChar; len: Integer; retlen: Pointer): Integer; cdecl;
+function ruby_mktemp: PAnsiChar; cdecl;
 procedure ruby_qsort(base: Pointer; nel, size: Integer; cmp: TRetIntFunc); cdecl;
 
 { variable.c }
 function rb_mod_name(module: Tvalue): Tvalue; cdecl;
 function rb_class_path(klass: Tvalue): Tvalue; cdecl;
-procedure rb_set_class_path(klass, under: Tvalue; const name: PChar); cdecl;
-function rb_path2class(const path: PChar): Tvalue; cdecl;
+procedure rb_set_class_path(klass, under: Tvalue; const name: PAnsiChar); cdecl;
+function rb_path2class(const path: PAnsiChar): Tvalue; cdecl;
 
 procedure rb_name_class(klass: Tvalue; id: Tid); cdecl;
-procedure rb_autoload(const klass, filename: PChar); cdecl;
+procedure rb_autoload(const klass, filename: PAnsiChar); cdecl;
 function rb_f_autoload(obj, klass, f: Tvalue): Tvalue; cdecl;
 procedure rb_gc_mark_global_tbl; cdecl;
 function rb_f_trace_var(argc: Integer; argv: Pvalue): Tvalue; cdecl;

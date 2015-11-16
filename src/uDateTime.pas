@@ -2,9 +2,15 @@
 
   Author: Kazuhiro Yoshida
   Modifications: Pirmin Kalberer <pi@sourcepole.com>
+                 Felipe Daragon (FD)
+                 
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
 }
 
 unit uDateTime;
+
+{$I heverdef.inc}
 
 interface
 
@@ -90,7 +96,7 @@ begin
     end;
   T_OBJECT:
     begin
-      class_name := rb_class2name(CLASS_OF(v));
+      class_name := string(rb_class2name(CLASS_OF(v)));
       if class_name = 'Date' then
         result := 
           dl_Double(rb_funcall2(v, rb_intern('jd'), 0, nil)) - jd_diff
@@ -99,7 +105,7 @@ begin
     end;
   T_DATA:
     begin
-      class_name := rb_class2name(CLASS_OF(v));
+      class_name := string(rb_class2name(CLASS_OF(v)));
       if class_name = 'Time' then
         result := 
         (
@@ -119,7 +125,7 @@ end;
 procedure ap_raise(exc: Tvalue; S: string);
 begin
   S := deleteCR(S);
-  rb_exc_raise(rb_exc_new2(exc, PChar(S)));
+  rb_exc_raise(rb_exc_new2(exc, PAnsiChar(AnsiString(S))));
 end;
 
 procedure ap_obj_call_init(obj: Tvalue; argc: Integer; argv: Pvalue);
@@ -178,9 +184,9 @@ var
 begin
   real := PDateTime(ap_data_get_struct(This))^;
   if real < 1 then
-    result := rb_str_new2(PChar(TimeToStr(real)))
+    result := rb_str_new2(PAnsiChar(AnsiString(TimeToStr(real))))
   else
-    result := rb_str_new2(PChar(DateTimeToStr(real)));
+    result := rb_str_new2(PAnsiChar(AnsiString(DateTimeToStr(real))));
 end;
 
 function DateTime_format(This, f: Tvalue): Tvalue; cdecl;
@@ -190,7 +196,7 @@ begin
   result := Qnil;
   try
     real := PDateTime(ap_data_get_struct(This))^;
-    result := rb_str_new2(PChar(FormatDateTime(dl_String(f), real)));
+    result := rb_str_new2(PAnsiChar(AnsiString(FormatDateTime(dl_String(f), real))));
   except
     on E: Exception do
       ap_raise(ap_eArgError, E.message);
@@ -416,7 +422,7 @@ end;
 
 function Phi_get_date_separator(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String(DateSeparator);
+  result := ap_String({$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}DateSeparator);
 end;
 
 function Phi_set_date_separator(This, v: Tvalue): Tvalue; cdecl;
@@ -427,7 +433,7 @@ begin
   s := dl_String(v);
   if Length(s) = 1 then
   begin
-    DateSeparator := s[1];
+    {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}DateSeparator := s[1];
     result := v;
   end else
     ap_raise(ap_eArgError, sWrong_arg_type);
@@ -435,7 +441,7 @@ end;
 
 function Phi_get_time_separator(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String(TimeSeparator);
+  result := ap_String({$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}TimeSeparator);
 end;
 
 function Phi_set_time_separator(This, v: Tvalue): Tvalue; cdecl;
@@ -446,7 +452,7 @@ begin
   s := dl_String(v);
   if Length(s) = 1 then
   begin
-    TimeSeparator := s[1];
+      {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}TimeSeparator := s[1];
     result := v;
   end else
     ap_raise(ap_eArgError, sWrong_arg_type);
@@ -454,46 +460,46 @@ end;
 
 function Phi_get_short_date_format(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String( ShortDateFormat );
+  result := ap_String( {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}ShortDateFormat );
 end;
 
 function Phi_set_short_date_format(This, v: Tvalue): Tvalue; cdecl;
 begin
   result := v;
-  ShortDateFormat := dl_String(v);
+  {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}ShortDateFormat := dl_String(v);
 end;
 
 function Phi_get_long_date_format(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String( LongDateFormat );
+  result := ap_String( {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}LongDateFormat );
 end;
 
 function Phi_set_long_date_format(This, v: Tvalue): Tvalue; cdecl;
 begin
   result := v;
-  LongDateFormat := dl_String(v);
+ {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}LongDateFormat := dl_String(v);
 end;
 
 function Phi_get_long_time_format(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String( LongTimeFormat );
+  result := ap_String( {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}LongTimeFormat );
 end;
 
 function Phi_set_long_time_format(This, v: Tvalue): Tvalue; cdecl;
 begin
   result := v;
-  LongTimeFormat := dl_String(v);
+ {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}LongTimeFormat := dl_String(v);
 end;
 
 function Phi_get_short_time_format(This: Tvalue): Tvalue; cdecl;
 begin
-  result := ap_String( ShortTimeFormat );
+  result := ap_String( {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF} ShortTimeFormat );
 end;
 
 function Phi_set_short_time_format(This, v: Tvalue): Tvalue; cdecl;
 begin
   result := v;
-  ShortTimeFormat := dl_String(v);
+  {$IFDEF DXE2_OR_UP}System.SysUtils.FormatSettings.{$ENDIF}ShortTimeFormat := dl_String(v);
 end;
 
 function DateTime_time(This: Tvalue): Tvalue; cdecl;

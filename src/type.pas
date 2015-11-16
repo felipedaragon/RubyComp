@@ -12,7 +12,7 @@ type
   Pid = ^Tid;
   TGetStrProc = procedure(S: string);
   TRetStrFunc = function: string;
-  TRetChrFunc = function: Char;
+  TRetChrFunc = function: AnsiChar;
   TAllocFunc = function(var AControl; owner: Tvalue): Tvalue;
   Tvalue_array = array of Tvalue;
 
@@ -22,7 +22,7 @@ type
   TOpenFile = record
     f, f2: Pointer;
     mode, pid, lineno: Integer;
-    path: PChar;
+    path: PAnsiChar;
     finalize: procedure; cdecl;
   end;
   
@@ -64,7 +64,7 @@ type
   TRString = record
     basic: TRBasic;
     len: Longint;
-    ptr: PChar;
+    ptr: PAnsiChar;
     orig: Tvalue;
   end;
   
@@ -79,7 +79,7 @@ type
     basic: TRBasic;
     ptr: PREPatternBuffer;
     len: Longint;
-    str: PChar;
+    str: PAnsiChar;
   end;
   
   PRMatch = ^TRMatch;
@@ -118,7 +118,7 @@ type
   
   TRBignum = record
     basic: TRBasic;
-    sign: Char;
+    sign: AnsiChar;
     len: Longint;
     digits: Pointer;
   end;
@@ -152,7 +152,7 @@ type
   PRNode = ^TRNode;
   TRNode = record
     flags: Longword;
-    nd_file: PChar;
+    nd_file: PAnsiChar;
     case TRNodeList of
     u1: (
       u1_node: PRNode;
@@ -195,7 +195,7 @@ type
 {$IFDEF RUBY18}
     node: PRNode;
 {$ELSE}
-    filename: PChar;
+    filename: PAnsiChar;
     line: Integer;
 {$ENDIF}
     iter: Integer;

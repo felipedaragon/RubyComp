@@ -2,7 +2,7 @@ unit RubyUtils;
 {
   Ruby Utils
 
-  Copyright (c) 2003-2014 Felipe Daragon
+  Copyright (c) 2003-2015 Felipe Daragon
   License: MIT (http://opensource.org/licenses/mit-license.php)
 }
 
@@ -24,7 +24,7 @@ var
   script: string;
 begin
   obj := TRubyEval.Create(nil);
-  rb_define_global_const(pchar('Source'), rb_str_new(pchar(source),
+  rb_define_global_const(pansichar('Source'), rb_str_new(pansichar(AnsiString(source)),
     length(source)));
   script := 'require ''coderay''';
   script := script + CRLF + 'CodeRay.scan(Source, :' + format +

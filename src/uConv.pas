@@ -3,6 +3,9 @@
   Author: Kazuhiro Yoshida
   Modifications: Pirmin Kalberer <pi@sourcepole.com>
                  Felipe Daragon (FD)
+                 
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
 }
 
 unit uConv;
@@ -19,11 +22,8 @@ uses
   Windows,
 {$ENDIF}
   SysUtils, Classes,
-{$IFDEF VCL}
-  StdCtrls, ComCtrls,
-{$ELSE}
-  // FD - When using the component from a DLL, this was a crash during loading
-  //QStdCtrls, QComCtrls,
+{$IFDEF CLX}
+  QStdCtrls, QComCtrls,
 {$ENDIF}
 {$IFDEF DELPHI6_UP}
   Variants,
@@ -91,7 +91,7 @@ end;
 
 function ap_String(S: string): Tvalue;
 begin
-  result := rb_str_new(PChar(S), length(S));
+  result := rb_str_new(PAnsiChar(AnsiString(S)), length(S));
 end;
 
 function dl_String(v: Tvalue): string;
@@ -107,9 +107,9 @@ begin
   varSmallint, varInteger, varByte:  result := ap_Fixnum(A);
   varSingle, varDouble, varCurrency: result := ap_Float(A);
 //see: [ap-dev:0675]
-//  PChar にキャストしているのは #0 を取り去るためだ。
+//  PAnsiChar にキャストしているのは #0 を取り去るためだ。
 //  しかしこれだと Pascal 文字列は #0 で切れてしまう。
-  varOleStr, varStrArg, varString:   result := ap_String(PChar(string(A)));
+  varOleStr, varStrArg, varString:   result := ap_String(string(PAnsiChar(AnsiString(A))));
   varBoolean:                        result := ap_bool(A);
   varDate:                           result := ap_DateTime(A);
 //see: [ap-dev:0630]

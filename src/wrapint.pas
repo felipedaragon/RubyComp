@@ -2,6 +2,10 @@
 
   Author: Kazuhiro Yoshida
   Modifications: Pirmin Kalberer <pi@sourcepole.com>
+                 Felipe Daragon (FD)
+                 
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
 }
 
 function ruby_frame: PRFRAME;
@@ -91,7 +95,7 @@ function ap_verbose: Tvalue;
 function ap_debug: Tvalue;
 function ap_nerrs: Integer;
 function ap_sourceline: Integer;
-function ap_sourcefile: PChar;
+function ap_sourcefile: PAnsiChar;
 function ap_trap_immediate: rb_atomic_t;
 function ap_prohibit_interrupt: Integer;
 function ap_trap_pending: rb_atomic_t;
@@ -104,7 +108,7 @@ function ap_ary_len(ary: Tvalue): Integer;
 function ap_ary_aset(ary, index, v: Tvalue): Tvalue; cdecl;
 function ap_ary_insert(ary, index, v: Tvalue): Tvalue; cdecl;
 procedure ap_ary_move(ary: Tvalue; CurIndex, NewIndex: Integer); cdecl;
-function ap_str_ptr(str: Tvalue): PChar;
+function ap_str_ptr(str: Tvalue): PAnsiChar;
 function ap_str_len(str: Tvalue): Integer;
 function ap_hash_ifnone(hash: Tvalue): Tvalue;
 function ap_data_get_struct(obj: Tvalue): Pointer;

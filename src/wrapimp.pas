@@ -1,4 +1,4 @@
-function GetProcAddr(Symbol: PChar): Pointer;
+function GetProcAddr(Symbol: PAnsiChar): Pointer;
 {$IFDEF LINUX}
 var
   Handle: Pointer;
@@ -57,12 +57,12 @@ begin
   Result := PRSCOPE(GetProcAddr('ruby_scope')^);
 end;
 
-function GetVar(Symbol: PChar): Tvalue;
+function GetVar(Symbol: PAnsiChar): Tvalue;
 begin
   Result := Tvalue(GetProcAddr(Symbol)^);
 end;
 
-procedure SetVar(Symbol: PChar; v: Tvalue);
+procedure SetVar(Symbol: PAnsiChar; v: Tvalue);
 begin
   Tvalue(GetProcAddr(Symbol)^) := v;
 end;
@@ -477,9 +477,9 @@ begin
   Result := GetVar('ruby_sourceline');
 end;
 
-function ap_sourcefile: PChar;
+function ap_sourcefile: PAnsiChar;
 begin
-  Result := PChar(GetVar('ruby_sourcefile'));
+  Result := PAnsiChar(GetVar('ruby_sourcefile'));
 end;
 
 function ap_trap_immediate: rb_atomic_t;
@@ -590,7 +590,7 @@ begin
   end;
 end;
 
-function ap_str_ptr(str: Tvalue): PChar;
+function ap_str_ptr(str: Tvalue): PAnsiChar;
 begin
   Result := PRString(str)^.ptr;
 end;

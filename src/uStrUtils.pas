@@ -1,8 +1,12 @@
 unit uStrUtils;
 
 {
-author: YOSHIDA Kazuhiro
-mailto: moriq@moriq.com
+  author: YOSHIDA Kazuhiro
+  mailto: moriq@moriq.com
+  Modifications copyright (c) 2015 Felipe Daragon
+                 
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
 }
 
 interface
@@ -53,8 +57,8 @@ function LowerCase1(const S: string): string;
   è¨ï∂éöÇÃå„Ç…ëÂï∂éöÇ™óàÇΩÇÁÅCÇªÇÃëÂï∂éöÇÃíºëOÇ… '_' Çì¸ÇÍÇÈÅB
 }
 
-function ParamCount1(CommandLine: PChar): Integer;
-function ParamStr1(CommandLine: PChar; Index: Integer): string;
+function ParamCount1(CommandLine: PAnsiChar): Integer;
+function ParamStr1(CommandLine: PAnsiChar; Index: Integer): string;
 
 function deleteCR(S: string): string;
 {
@@ -82,9 +86,9 @@ end;
 
 function trimUnder(const S: string): string;
 var
-  Ch: Char;
+  Ch: AnsiChar;
   L: Integer;
-  Source, Dest: PChar;
+  Source, Dest: PAnsiChar;
   SepCnt: Integer;
 begin
   L := Length(S);
@@ -118,9 +122,9 @@ end;
 
 function chopUnder(const S: string): string;
 var
-  Ch: Char;
+  Ch: AnsiChar;
   L: Integer;
-  Source, Dest: PChar;
+  Source, Dest: PAnsiChar;
   SepCnt: Integer;
 begin
   L := Length(S);
@@ -154,9 +158,9 @@ end;
 
 function Capitalize1(const S: string): string;
 var
-  Ch: Char;
+  Ch: AnsiChar;
   L: Integer;
-  Source, Dest: PChar;
+  Source, Dest: PAnsiChar;
   PreLow, Low, Upp, PreSep, Sep: Boolean;
   SepCnt: Integer;
 begin
@@ -215,9 +219,9 @@ end;
 
 function UpperCase1(const S: string): string;
 var
-  Ch: Char;
+  Ch: AnsiChar;
   L: Integer;
-  Source, Dest: PChar;
+  Source, Dest: PAnsiChar;
   PreLow, Low, Upp: Boolean;
   SepCnt: Integer;
 begin
@@ -276,12 +280,12 @@ type
 var
   i:integer;
   sw:TState;
-  c:char;
+  c:AnsiChar;
 begin
   result := AnsiLowerCase(S);
   sw := Z;
   for i := length(S) downto 1 do begin
-    c := S[i];
+    c := AnsiChar(S[i]);
     if c in ['a'..'z'] then begin
       if (sw = UU) or (sw = UL) then begin
         insert('_', result, i+1);
@@ -302,10 +306,10 @@ begin
   end;
 end;
 
-function GetParamStr1(P: PChar; var Param: string): PChar;
+function GetParamStr1(P: PAnsiChar; var Param: string): PAnsiChar;
 var
   Len: Integer;
-  Buffer: array[0..4095] of Char;
+  Buffer: array[0..4095] of AnsiChar;
 begin
   while True do
   begin
@@ -334,9 +338,9 @@ begin
   Result := P;
 end;
 
-function ParamCount1(CommandLine: PChar): Integer;
+function ParamCount1(CommandLine: PAnsiChar): Integer;
 var
-  P: PChar;
+  P: PAnsiChar;
   S: string;
 begin
   P := GetParamStr1(CommandLine, S);
@@ -349,9 +353,9 @@ begin
   end;
 end;
 
-function ParamStr1(CommandLine: PChar; Index: Integer): string;
+function ParamStr1(CommandLine: PAnsiChar; Index: Integer): string;
 var
-  P: PChar;
+  P: PAnsiChar;
 begin
   P := CommandLine;
   while True do

@@ -3,7 +3,7 @@ library RbUtils;
 {
  Ruby Utilities for Lua
  
-  Copyright (c) 2003-2014 Felipe Daragon
+  Copyright (c) 2003-2015 Felipe Daragon
   License: MIT (http://opensource.org/licenses/mit-license.php)
 }
 

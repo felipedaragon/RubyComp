@@ -3,9 +3,11 @@
   Copyright (C) 2003 Sourcepole AG
   Author: Pirmin Kalberer <pi@sourcepole.com>
   License: MPL1.1 <http://www.opensource.org/licenses/mozilla1.1.php>
+  Modifications copyright (c) 2014-2015 Felipe Daragon
 
-  Felipe Daragon, 2014, changed:
-  - Added TRubyPrintProc and DelphiIO_puts()
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
+  * 20.05.2014, FD - Added TRubyPrintProc and DelphiIO_puts()
 }
 
 unit RubyEval;
@@ -157,14 +159,14 @@ begin
   if Length(S) = 0 then
     result := Qnil
   else
-    result := rb_str_new2(PChar(S))
+    result := rb_str_new2(PAnsiChar(AnsiString(S)))
   ;
   rb_lastline_set(result); // $_ set
 end;
 
 function DelphiIO_getc(This: Tvalue): Tvalue; cdecl;
 var
-  c: Char;
+  c: AnsiChar;
 begin
   read(c);
   if c = #0 then
@@ -281,7 +283,7 @@ function TRubyEval.EvalExpression(const expr: String): Variant;
 var
   rval: Tvalue;
 begin
-  rval := rb_eval_string_protect(PChar(expr), state);
+  rval := rb_eval_string_protect(PAnsiChar(AnsiString(expr)), state);
   if CheckState then
     Result := dl_Variant(rval)
   else
@@ -290,10 +292,10 @@ end;
 
 procedure TRubyEval.EvalFile(const filename: String);
 begin
-  {//ruby_options(intargc, char**argv")
+  {//ruby_options(intargc, AnsiChar**argv")
     argc := args.count;
     SetLength(argv, argc);
-    for i := 0 to argc-1 do argv[i] := PChar(args[i]);
+    for i := 0 to argc-1 do argv[i] := PAnsiChar(args[i]);
     ruby_set_argv(argc, argv);
   }
   rb_load_protect(ap_String(filename), 0, state);

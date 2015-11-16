@@ -22,9 +22,9 @@ end;
 function FIX2INT(var x): Integer;
 begin
   result := Integer(x);
-asm
-  sar result,1
-end;
+  asm
+    sar result,1
+  end;
 end;
 
 function NUM2INT(var x): Integer;
@@ -63,12 +63,12 @@ end;
 function SYM2ID(var x): Tid;
 begin
   result := Integer(x);
-asm
-  sar result,8
-end;
+  asm
+    sar result,8
+  end;
 end;
 
-function dl_String(var x): PChar;
+function dl_String(var x): PAnsiChar;
 var
   len: Integer;
 begin
@@ -163,25 +163,25 @@ end;
 procedure ap_raise(exc: Tvalue; S: string);
 begin
   S := deleteCR(S);
-  rb_exc_raise(rb_exc_new2(exc, PChar(S)));
+  rb_exc_raise(rb_exc_new2(exc, PAnsiChar(AnsiString(S))));
 end;
 
 procedure ap_loaderror(S: string);
 begin
   S := deleteCR(S);
-  rb_exc_raise(rb_exc_new2(ap_eLoadError, PChar(S)));
+  rb_exc_raise(rb_exc_new2(ap_eLoadError, PAnsiChar(AnsiString(S))));
 end;
 
 procedure ap_fatal(S: string);
 begin
   S := deleteCR(S);
-  rb_exc_fatal(rb_exc_new2(ap_eFatal, PChar(S)));
+  rb_exc_fatal(rb_exc_new2(ap_eFatal, PAnsiChar(AnsiString(S))));
 end;
 
 procedure ap_sys_fail(S: string);
 begin
   S := deleteCR(S);
-  rb_sys_fail(PChar(S));
+  rb_sys_fail(PAnsiChar(AnsiString(S)));
 end;
 
 function ap_bool(B: Boolean): Tvalue;
@@ -199,12 +199,12 @@ begin
   result := rb_big2ulong(Tvalue(x));
 end;
 
-function NUM2CHR(x: Tvalue): Char;
+function NUM2CHR(x: Tvalue): AnsiChar;
 begin
  if (RTYPE(x) = T_STRING) and (ap_str_len(x) > 0) then
    result := ap_str_ptr(x)^
  else
-   result := Char(NUM2INT(x) and $ff)
+   result := AnsiChar(NUM2INT(x) and $ff)
  ;
 end;
 
@@ -215,7 +215,7 @@ end;
 
 procedure ap_str_cat(var str: Tvalue; S: string);
 begin
-  rb_str_cat(str, PChar(S), Length(S));
+  rb_str_cat(str, PAnsiChar(AnsiString(S)), Length(S));
 end;
 
 procedure ap_str_cat_int(var str: Tvalue; i: Integer);

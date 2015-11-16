@@ -2,6 +2,10 @@
 
   Author: Kazuhiro Yoshida
   Modifications: Pirmin Kalberer <pi@sourcepole.com>
+                 Felipe Daragon (FD)
+
+  Changes:
+  * 15.11.2015, FD - Added support for Delphi XE2 or higher.
 }
 
 unit RubyWrapper;
@@ -46,7 +50,7 @@ const
 {$I macroint.pas}
 
 var
-  RuntimeRubyDLL: array[0..MAX_PATH] of Char = RubyDLL;
+  RuntimeRubyDLL: array[0..MAX_PATH] of AnsiChar = RubyDLL;
 
 implementation
 

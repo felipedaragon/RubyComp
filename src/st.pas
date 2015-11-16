@@ -51,8 +51,8 @@ function st_init_numtable_with_size(size: Integer): PSTTable;
 function st_init_strtable: PSTTable;
 function st_init_strtable_with_size(size: Integer): PSTTable;
 {
-  pchar 用のハッシュを作成する。
-  st_init_table に pchar 用の操作関数を渡しているだけ。
+  PAnsiChar 用のハッシュを作成する。
+  st_init_table に PAnsiChar 用の操作関数を渡しているだけ。
 }
 
 procedure st_free_table(table: PSTTable);
@@ -115,16 +115,16 @@ implementation
 
 function strcmp(var x, y): Integer;
 begin
-  result := strcomp(pchar(x), pchar(y));
+  result := strcomp(PAnsiChar(x), PAnsiChar(y));
 end;
 
 function strhash(var x): Integer;
 var
-  c: pchar;
+  c: PAnsiChar;
   h, g: Cardinal;
 begin
   // HASH_ELFHASH
-  c := pchar(x);
+  c := PAnsiChar(x);
   h := 0;
   while c <> #0 do
   begin
