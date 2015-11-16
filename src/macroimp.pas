@@ -18,13 +18,21 @@ begin
   result := rb_uint2inum(i);
 end;
 
+function sar(Value, Shift: Integer): Integer;
+begin
+  result := (Value shr Shift) or
+    (($FFFFFFFF + (1 - ((Value and (1 shl 31)) shr 31) and ORD(Shift <> 0)))
+    shl (32 - Shift));
+end;
+
 { thank you, kimura! [ap-list:0317] }
 function FIX2INT(var x): Integer;
 begin
   result := Integer(x);
-  asm
-    sar result,1
-  end;
+  result := sar(result,1); // FD
+//asm
+//  sar result,1
+//end;
 end;
 
 function NUM2INT(var x): Integer;
@@ -63,9 +71,10 @@ end;
 function SYM2ID(var x): Tid;
 begin
   result := Integer(x);
-  asm
-    sar result,8
-  end;
+  result := sar(result,8); // FD
+  //asm
+  //  sar result,8
+  //end;
 end;
 
 function dl_String(var x): PAnsiChar;

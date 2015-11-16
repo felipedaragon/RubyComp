@@ -6,6 +6,7 @@
 
   Changes:
   * 15.11.2015, FD - Added support for Delphi XE2 or higher.
+  * 15.11.2015, FD - Replaced ASM code for 64-bit compilation.
 }
 
 unit RubyWrapper;

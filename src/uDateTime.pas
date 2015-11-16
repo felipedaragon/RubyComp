@@ -6,6 +6,7 @@
                  
   Changes:
   * 15.11.2015, FD - Added support for Delphi XE2 or higher.
+  * 15.11.2015, FD - Replaced ASM code for 64-bit compilation.
 }
 
 unit uDateTime;
@@ -600,9 +601,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -610,6 +612,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncYear(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_month(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -617,9 +620,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -627,6 +631,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncMonth(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_week(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -634,9 +639,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -644,6 +650,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncWeek(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 
@@ -652,9 +659,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -662,6 +670,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncDay(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_hour(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -669,9 +678,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -679,6 +689,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncHour(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_minute(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -686,9 +697,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -696,6 +708,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncMinute(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_sec(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -703,9 +716,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -713,6 +727,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncSecond(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 function DateTime_inc_msec(argc: Integer; argv: Pointer; This: Tvalue): Tvalue; cdecl;
@@ -720,9 +735,10 @@ var
   args: array of Tvalue;
   i: Integer;
 begin
-asm
-  FInit;
-end;
+  Set8087CW($133f); // FD
+//asm
+//  FInit;
+//end;
   SetLength(args, argc);
   args := argv;
   if argc = 1 then
@@ -730,6 +746,7 @@ end;
   else
     i := 1;
   result := ap_DateTime(IncMilliSecond(dl_DateTime(This), i));
+  Set8087CW($1332); // re-enable FPU exceptions
 end;
 
 //-- etc
